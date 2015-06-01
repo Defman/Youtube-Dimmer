@@ -9,12 +9,14 @@ var players = {};
 function onYouTubeIframeAPIReady() {
     var i = 0;
     $("iframe").each(function() {
-        players[i] = new YT.Player(this, {
-            events: {
-              'onStateChange': onPlayerStateChange
-            }
-        });
-    i++;
+		if(this.src.search("www.youtube.com") != -1) {
+			players[i] = new YT.Player(this, {
+				events: {
+				  'onStateChange': onPlayerStateChange
+				}
+			});
+			i++;
+		}
     });
 }
 
@@ -31,7 +33,10 @@ function onPlayerStateChange(event) {
 
 function dim(todim) {
     $.undim();
-    $(todim).parent("#dim").dimBackground();
+	var dim = $(todim).parent("#dim");
+	if(dim.length) {
+		dim.dimBackground();
+	}
 }
 
 function unDim(todim) {
